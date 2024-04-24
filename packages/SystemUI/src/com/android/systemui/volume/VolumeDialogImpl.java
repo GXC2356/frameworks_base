@@ -997,7 +997,14 @@ public class VolumeDialogImpl implements VolumeDialog, Dumpable,
         row.iconMuteRes = iconMuteRes;
         row.important = important;
         row.defaultStream = defaultStream;
-        row.view = mDialog.getLayoutInflater().inflate(R.layout.volume_dialog_row, null);
+        // Add null check for mDialog before accessing getLayoutInflater()
+        if (mDialog != null) {
+            row.view = mDialog.getLayoutInflater().inflate(R.layout.volume_dialog_row, null);
+        } else {
+            // Handle the case when mDialog is null
+            // You might want to log an error or throw an exception here
+            return;
+        }
         row.view.setId(row.stream);
         row.view.setTag(row);
         row.header = row.view.findViewById(R.id.volume_row_header);
